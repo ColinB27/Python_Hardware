@@ -1,3 +1,17 @@
+"""
+============================================================================================
+Python Library for PCA9698 40 bit io expander
+Author: ColinB27
+Revision : 1
+First revision  : 02/27/2024
+Latest revision : 02/27/2024 
+
+Description:
+This library provides a class and functions to interact with the PCA9698 IO expander.
+Please note that this library is designed to be used with Python 3.5.7 and newer versions
+============================================================================================
+"""
+
 from smbus2 import SMBus
 from time import sleep
 
