@@ -1,8 +1,10 @@
 """
 ============================================================================================
 Python Library for APDS9960 Light and Gesture Sensor
-Author: Your Name
-Date: Date of Creation
+Author: ColinB27
+Revision : 1
+First revision  : 02/27/2024
+Latest revision : 02/27/2024 
 
 Description:
 This library provides a class and functions to interact with the APDS9960 light sensor.
