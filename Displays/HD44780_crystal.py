@@ -1,17 +1,15 @@
 """
     LCD_Lib.py
-Librairie personnel pour utilisation avec écran LCD 20x4 (2004A)
-Cette librairie permet de créé des objets capable de gérer des écrans
-LCD: écrire, effacer, etc
+Personal library for use with a 20x4 LCD screen (2004A)
+This library allows the creation of objects capable of managing LCD screens: writing, clearing, etc.
 
-Cette version est hautement inspirer d'exemples sur internet, mais est optimiser
-en objet je n'ai garder que le nécessaire
+This version is highly inspired by examples found on the internet but is optimized as an object. 
+I have kept only the necessary elements.
 
---Auteur     : Colin Boulé
+--Author     : Colin Boulé
 --Revision   : 002
 --First Rev. : 2023/01/30
 --Last Rev.  : 2024/02/27
-
 """
 #-------------------------------------- Dependencies  --------------------------------------#
 import machine
@@ -39,17 +37,20 @@ class Lcd2004:
         self.d5 = machine.Pin(d5,machine.Pin.OUT)
         self.d6 = machine.Pin(d6,machine.Pin.OUT)
         self.d7 = machine.Pin(d7,machine.Pin.OUT)
+        
     def pulseEN(self):
         (self.en).value( 1)
         utime.sleep_us(40)
         (self.en).value( 0)
         utime.sleep_us(40)
+        
     def send2LCD4(self,char):
         (self.d4).value((char & 0b00000001) >>0)
         (self.d5).value((char & 0b00000010) >>1)
         (self.d6).value((char & 0b00000100) >>2)
         (self.d7).value((char & 0b00001000) >>3)
         self.pulseEN()
+        
     def send2LCD8(self,char):
         (self.d4).value((char & 0b00010000) >>4)
         (self.d5).value((char & 0b00100000) >>5)
@@ -61,6 +62,7 @@ class Lcd2004:
         (self.d6).value((char & 0b00000100) >>2)
         (self.d7).value((char & 0b00001000) >>3)
         self.pulseEN()
+        
     def setUpLCD(self):
         (self.rs).value(0)
         self.send2LCD4(0b0011) #8 bit
@@ -72,10 +74,12 @@ class Lcd2004:
         self.send2LCD8(0b00000110) #increment cursor, no display shift
         self.send2LCD8(0b00000001) #clear screen
         utime.sleep_ms(2) #clear screen needs a long delay
+        
     def writeStr(self,string):
         (self.rs).value(1)
         for x in string:
             self.send2LCD8(ord(x))
+            
     def writeCmd(self,char):
         (self.rs).value(0)
         self.send2LCD4(0b0011) #8 bit
@@ -83,6 +87,7 @@ class Lcd2004:
         self.send2LCD4(0b0011) #8 bit
         self.send2LCD4(0b0010) #4 bit
         self.send2LCD8(char) #clear screen
+        
   def writeStrToLine(self,string,line):
         lines = [LCD_LINE_1,LCD_LINE_2,LCD_LINE_3,LCD_LINE_4]
         if line >= 1 and line <= 4:
