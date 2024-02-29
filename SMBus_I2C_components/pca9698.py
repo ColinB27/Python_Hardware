@@ -1,14 +1,14 @@
 """
 ============================================================================================
-Python Library for PCA9698 40 bit io expander
-Author: ColinB27
-Revision : 1
-First revision  : 02/27/2024
-Latest revision : 02/27/2024 
-
+Python Library for PCA9698 40-bit I/O Expander
 Description:
-This library provides a class and functions to interact with the PCA9698 IO expander.
-Please note that this library is designed to be used with Python 3.5.7 and newer versions
+This library provides a class and functions to interact with the PCA9698 I/O expander.
+Please note that this library is designed to be used with Python 3.5.7 and newer versions.
+
+Author: ColinB27
+Revision: 1
+First Revision: 02/27/2024
+Latest Revision: 02/27/2024 
 ============================================================================================
 """
 
@@ -21,7 +21,7 @@ class IoExp():
         self.bus = SMBus(i2c)
         self.port_reg      = (0x00,0x01,0x02,0x03,0x04) # memory register of IO values
         self.output_reg    = (0x08,0x09,0x0A,0x0B,0x0C) # memory register of IO outputs
-        self.direction_reg = (0x18,0x19,0x1A,0x1B,0x1C) # memory register of IO direction (in or out)
+        self.direction_reg = (0x18,0x19,0x1A,0x1B,0x1C) # memory register of IO direction (in or out) (1 is and input 0 is an output)
         
         self.port_dir = port_dir # config to send to the direction register
         self.port_out = port_out # config to send to the output register
@@ -61,8 +61,7 @@ class IoExp():
         bit = 1
         for i in range(0,io):
             bit = bit << 1
-        if io >= 0 and io <=7 and self.port_dir[io]&:
-            
+        if io >= 0 and io <=7 and self.port_dir[io]:
             if(self.port_out[io] & bit):
                 integer = integer - bit
             else:
