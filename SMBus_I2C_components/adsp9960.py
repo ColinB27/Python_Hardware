@@ -1,17 +1,16 @@
 """
 ============================================================================================
 Python Library for APDS9960 Light and Gesture Sensor
-Author: ColinB27
-Revision : 1
-First revision  : 02/27/2024
-Latest revision : 02/27/2024 
-
 Description:
 This library provides a class and functions to interact with the APDS9960 light sensor.
 The library currently only supports functionalities related to the light sensor. 
 The gesture sensor functionality is not implemented in this version of the library.
-Please note that this library is designed to be used with Python 3.5.7 and newer versions
+Please note that this library is designed to be used with Python 3.5.7 and newer versions.
 
+Author: ColinB27
+Revision: 1
+First revision: 02/27/2024
+Latest revision: 02/27/2024 
 ============================================================================================
 """
 from smbus2 import SMBus
@@ -22,7 +21,6 @@ GREEN = (2)
 BLUE  = (3)
 APDS9960_EN_REG = (0x80)
 APDS9960_GAIN_REG = (0x8F)
-
 # gains 0x0 0x1 0x2 0x3
 
 class Adsp9960():
