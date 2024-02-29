@@ -1,15 +1,16 @@
 """
-    ADS1219_Lib.py
-Personal library for use with the ADS1219 Analog-to-Digital Converter
+============================================================================================
+ADS1219 Library for Analog-to-Digital Conversion
+Description:
 This library enables the creation of objects capable of reading voltages from the ADS1219's four inputs. 
 The ADS1219 can also function as a comparator, but this library is focused on voltage reading capabilities.
-
 This version is an initial release and is optimized for simplicity, focusing solely on voltage measurement functionality.
 
---Author     : ColinB27
---Revision   : 001
---First Rev. : 2024/02/28
---Last Rev.  : 2024/02/28
+Author: ColinB27
+Revision: 001
+First Revision: 2024/02/28
+Last Revision: 2024/02/28
+============================================================================================
 """
 # To accesss information or commands to each of these inputs use the 
 # corresponding number of each inputs in function calls
