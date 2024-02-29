@@ -1,12 +1,25 @@
-from smbus2 import SMBus
-from time import sleep
+"""
+    ADS1219_Lib.py
+Personal library for use with the ADS1219 Analog-to-Digital Converter
+This library enables the creation of objects capable of reading voltages from the ADS1219's four inputs. 
+The ADS1219 can also function as a comparator, but this library is focused on voltage reading capabilities.
 
+This version is an initial release and is optimized for simplicity, focusing solely on voltage measurement functionality.
+
+--Author     : ColinB27
+--Revision   : 001
+--First Rev. : 2024/02/28
+--Last Rev.  : 2024/02/28
+"""
 # To accesss information or commands to each of these inputs use the 
 # corresponding number of each inputs in function calls
 # AIN0 - 0
 # AIN1 - 1
 # AIN2 - 2
 # AIN3 - 3
+
+from smbus2 import SMBus
+from time import sleep
 
 class Ads1219():
     def __init__(self,addr, i2c=2):
