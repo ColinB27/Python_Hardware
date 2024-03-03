@@ -1,5 +1,5 @@
 """
-============================================================================================
+===========================================================================================================================
 ADS1219 Library for Analog-to-Digital Conversion
 Description:
 This library enables the creation of objects capable of reading voltages from the ADS1219's four inputs. 
@@ -10,7 +10,7 @@ Author: ColinB27
 Revision: 001
 First Revision: 2024/02/28
 Last Revision: 2024/02/28
-============================================================================================
+===========================================================================================================================
 """
 # To accesss information or commands to each of these inputs use the 
 # corresponding number of each inputs in function calls
@@ -28,7 +28,7 @@ class Ads1219():
         self.i2c = SMBus(i2c)
         self.ain_reg=((0x63, 0x83, 0xA3, 0xC3))
         self.ain_raw_data = [0,0,0,0] 
-        self.ain_values   = [0,0,0,0] 
+        self.ain_data   = [0,0,0,0] 
     
     def _read_ain_byte_data_(self, ain):
         self.i2c.write_byte_data(self.addr,0x40,self.ain_reg[ain]) # configures the adc to read a AN
@@ -43,13 +43,15 @@ class Ads1219():
         if (self.ain_raw_data[ain] & 0x800000) == 0x800000: 
             volts = "Value is negative and out of range"
         else: 
-            self.ain_values[ain] = round(((self.ain_raw_data[ain]*5)/2**23),4)
+            self.ain_data[ain] = round(((self.ain_raw_data[ain]*5)/2**23),4)
     
     def _read_ain_voltage_(self, ain):
         self._read_ain_byte_data_(ain)
         self._interpret_byte_data_(ain)
+        return self.ain_data[ain]
     
     def _read_adc_voltages_(self):
         for ain in range(0,4):
             self._read_ain_voltage_(ain)
+        return self.ain_data
             
