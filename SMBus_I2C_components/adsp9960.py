@@ -14,13 +14,16 @@ Latest revision: 02/27/2024
 ============================================================================================
 """
 from smbus2 import SMBus
+FUNC_CALL_ERR = (-1)
+I2C_FAILURE = (-2)
 
 CLEAR = (0)
 RED   = (1)
 GREEN = (2)
 BLUE  = (3)
-APDS9960_EN_REG = (0x80)
+APDS9960_EN_REG   = (0x80)
 APDS9960_GAIN_REG = (0x8F)
+
 # gains 0x0 0x1 0x2 0x3
 
 class Adsp9960():
@@ -31,31 +34,49 @@ class Adsp9960():
         self.color_data = [[],[],[],[]]
         
     def enable_color(self):
-        self.i2c.write_byte_data(self.APDS9960_addr,APDS9960_EN_REG,0x01) # pwr on
-        self.i2c.write_byte_data(self.APDS9960_addr,APDS9960_EN_REG,0x03) # enable
+        try:
+            self.i2c.write_byte_data(self.APDS9960_addr, APDS9960_EN_REG, 0x01)  # pwr on
+            self.i2c.write_byte_data(self.APDS9960_addr, APDS9960_EN_REG, 0x03)  # enable
+            return 1  # Successful I2C communication
+        except Exception as e:
+            return I2C_FAILURE 
+
 
     def read_ambient_light_register(self, color):
-        if color <= 0 and color >=3:
-            data = self.i2c.read_i2c_block_data(self.APDS9960_addr,self.read_reg[color],2)
-            self.color_data[color] = data
-            return data
+        if color <= 0 and color >= 3:
+            try:
+                data = self.i2c.read_i2c_block_data(self.APDS9960_addr, self.read_reg[color], 2)
+                self.color_data[color] = data
+                return data
+            except Exception as e:
+                return I2C_FAILURE 
         else:
-            return -1
+            return FUNC_CALL_ERR
     
     def read_colors(self):
-        self.color_data[CLEAR] = self.read_ambient_light_register(CLEAR)
-        self.color_data[RED]   = self.read_ambient_light_register(RED)
-        self.color_data[GREEN] = self.read_ambient_light_register(GREEN)
-        self.color_data[BLUE]  = self.read_ambient_light_register(BLUE)
-        return self.color_data
+        try:
+            self.color_data[CLEAR] = self.read_ambient_light_register(CLEAR)
+            self.color_data[RED]   = self.read_ambient_light_register(RED)
+            self.color_data[GREEN] = self.read_ambient_light_register(GREEN)
+            self.color_data[BLUE]  = self.read_ambient_light_register(BLUE)
+            return self.color_data
+        except Exception as e:
+            return I2C_FAILURE
         
     def set_gain(self, gain):
-        if gain <=3 and gain >=0:
-            self.i2c.write_byte_data(self.APDS9960_addr,APDS9960_GAIN_REG,gain)
+        if gain <= 3 and gain >= 0:
+            try:
+                self.i2c.write_byte_data(self.APDS9960_addr, APDS9960_GAIN_REG, gain)
+                return 1  # Successful I2C communication
+            except Exception as e:
+                return I2C_FAILURE
+        else:
+            return FUNC_CALL_ERR
+    
             
-    def get_stored_color_data(self,color):
-        if color <=3 and color >=0:
+    def get_stored_color_data(self, color):
+        if color <= 3 and color >= 0:
             return self.color_data[color]
         else:
-            return -1
+            return FUNC_CALL_ERR
     
