@@ -22,6 +22,8 @@ Last Revision: 2024/02/28
 from smbus2 import SMBus
 from time import sleep
 
+I2C_FAILURE = (-2)
+
 class Ads1219():
     def __init__(self,addr, i2c=2):
         self.addr = (addr)
@@ -31,13 +33,19 @@ class Ads1219():
         self.ain_data   = [0,0,0,0] 
     
     def _read_ain_byte_data_(self, ain):
-        self.i2c.write_byte_data(self.addr,0x40,self.ain_reg[ain]) # configures the adc to read a AN
-        self.i2c.write_byte(self.addr,0x08) # calls a read action from the adc
+        try:
+            self.i2c.write_byte_data(self.addr,0x40,self.ain_reg[ain]) # configures the adc to read a AN
+            self.i2c.write_byte(self.addr,0x08) # calls a read action from the adc
+        except Exception as e:
+            return I2C_FAILURE
         sleep(0.5)
         
-        data = self.i2c.read_i2c_block_data(self.addr,0x10,3) # reads the value from the read action of the adc
-        self.ain_raw_data[ain] = (((data[0] << 8)+ data[1])<< 8)+data[2]
-        return data
+        try :    
+            data = self.i2c.read_i2c_block_data(self.addr,0x10,3) # reads the value from the read action of the adc
+            self.ain_raw_data[ain] = (((data[0] << 8)+ data[1])<< 8)+data[2]
+            return data
+        except Exception as e:
+            return I2C_FAILURE
     
     def _interpret_byte_data_(self,ain):
         if (self.ain_raw_data[ain] & 0x800000) == 0x800000: 
