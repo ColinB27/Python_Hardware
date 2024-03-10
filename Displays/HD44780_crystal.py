@@ -1,15 +1,20 @@
 """
-    LCD_Lib.py
+===========================================================================================================================
+LCD_Lib.py
 Personal library for use with a 20x4 LCD screen (2004A)
 This library allows the creation of objects capable of managing LCD screens: writing, clearing, etc.
 
 This version is highly inspired by examples found on the internet but is optimized as an object. 
-I have kept only the necessary elements.
+I have kept only the necessary elements. 
 
---Author     : Colin Boulé
---Revision   : 002
---First Rev. : 2023/01/30
---Last Rev.  : 2024/02/27
+This code is dependent on the machine module of adafruit CircuitPython
+
+Author: Colin Boulé
+Revision: 002
+First Rev.: 2023/01/30
+Last Rev.: 2024/02/27
+===========================================================================================================================
+
 """
 #-------------------------------------- Dependencies  --------------------------------------#
 import machine
