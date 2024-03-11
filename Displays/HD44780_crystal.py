@@ -29,9 +29,6 @@ LCD_LINE_3 = 0x94 # LCD RAM address for the 3rd line
 LCD_LINE_4 = 0xD4 # LCD RAM address for the 4th line
 LCD_CLR = 0x01            
 LCD_HOME = 0x02
-LCD_MOVE_RIGHT = 0x04
-LCD_ON_BLINK = 0x01
-LCD_ON_CURSOR = 0x02
 #--------------------------------------------------------------------------------------------#
 
 class Lcd2004:
@@ -98,5 +95,7 @@ class Lcd2004:
         if line >= 1 and line <= 4:
           self.writeCmd(lines[line])
           self.writeStr(string)
+            
   def clear(self):
         self.writeCmd(LCD_CLR)
+        self.writeCmd(LCD_HOME)
