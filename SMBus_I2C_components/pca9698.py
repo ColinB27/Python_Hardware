@@ -15,6 +15,9 @@ Latest Revision: 02/27/2024
 from smbus2 import SMBus
 from time import sleep
 
+I2C_FAILURE = (-2)
+EXIT_SUCCESS = (1)
+
 class IoExp():
     def __init__(self,addr = 0x20, i2c=2, port_dir = [0x00,0x00,0x00,0x00,0x00], port_out = [0x00,0x00,0x00,0x00,0x00]):
         self.addr = addr
@@ -28,13 +31,21 @@ class IoExp():
     
     # Sends the port direction configuration to a IO bank
     def _IOExp_send_dir_(self, bank):
-        self.bus.write_byte_data(self.addr, self.direction_reg[bank], self.port_dir[bank])
-        sleep(0.2)
+        try:
+            self.bus.write_byte_data(self.addr, self.direction_reg[bank], self.port_dir[bank])
+            sleep(0.2)
+            return EXIT_SUCCESS
+        except Exception as e :
+            return I2C_FAILURE
     
     # Sends the port outputs' configuration of a IO bank
     def _IOExp_send_outs_(self, bank):
-        self.bus.write_byte_data(self.addr, self.output_reg[bank], self.port_out[bank])
-        sleep(0.2)
+        try: 
+            self.bus.write_byte_data(self.addr, self.output_reg[bank], self.port_out[bank])
+            sleep(0.2)
+            return EXIT_SUCCESS
+        except Exception as e :
+            return I2C_FAILURE
     
     # Changes and sends the port direction configuration to a IO bank
     def _IOExp_set_dir_(self, bank, dir):
@@ -48,8 +59,11 @@ class IoExp():
 
     # Returns read values of input at bank
     def _IOExp_read_(self,bank):
-        data = self.bus.read_i2c_block_data(self.addr, self.port_reg[bank],1)
-        return data
+        try:
+            data = self.bus.read_i2c_block_data(self.addr, self.port_reg[bank],1)
+            return data
+        except Exception as e :
+            return I2C_FAILURE
     
     # Configures the OI expander using the configuration set in the registers
     def _IOExp_configure_(self):
