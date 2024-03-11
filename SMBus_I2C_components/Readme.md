@@ -10,9 +10,9 @@ from smbus2 import SMBus
 from adsp9960 import Adsp9960
 
 light_sensonr = Adsp9960()
-light_sensor.enable()
+light_sensor.enable_color()
 light_sensor.set_gain(0x03)
-ambient_red_light = light_sensor.read_ambient_light(RED)
+ambient_red_light = light_sensor.read_ambient_light_register(RED, 2)
 all_light = light_sensor.read_colors()
 ```
 
