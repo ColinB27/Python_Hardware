@@ -5,7 +5,7 @@
 
 ## ADSP9960 Light and gesture sensor
 ### Basic Use
-```
+```python
 from smbus2 import SMBus
 from adsp9960 import Adsp9960
 
