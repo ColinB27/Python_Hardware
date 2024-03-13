@@ -8,6 +8,9 @@ from ads1219 import Ads1219
 
 addr = 0x40
 adc = Ads1219(addr)
+voltages = adc.read_voltages()
+for ain in range(0, 4) :
+  print(f"Voltage at AIN{ain} : {voltages[ain]}")
 ```
 
 ## ADSP9960 Light and gesture sensor
