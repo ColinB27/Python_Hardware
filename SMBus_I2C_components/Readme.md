@@ -27,3 +27,15 @@ all_light = light_sensor.read_colors()
 ```
 
 ## PCA9698 40 bit IO expander
+### Basic Use
+```python
+from smbus2 import SMBus
+from pca9698 import Pca9698
+
+io_exp = Pca9698()
+io_exp.set_dir(2, 0xf0)
+io_exp.set_outs(2,0x0f)
+io_exp.configure()
+while(True):
+  io_exp.toggle_io(2, 0x2)
+```
