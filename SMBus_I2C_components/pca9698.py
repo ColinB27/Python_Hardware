@@ -18,7 +18,7 @@ from time import sleep
 I2C_FAILURE = (-2)
 EXIT_SUCCESS = (1)
 
-class IoExp():
+class Pca9698():
     def __init__(self,addr = 0x20, i2c=2, port_dir = [0x00,0x00,0x00,0x00,0x00], port_out = [0x00,0x00,0x00,0x00,0x00]):
         self.addr = addr
         self.bus = SMBus(i2c)
@@ -30,7 +30,7 @@ class IoExp():
         self.port_out = port_out # config to send to the output register
     
     # Sends the port direction configuration to a IO bank
-    def _IOExp_send_dir_(self, bank):
+    def send_dir(self, bank):
         try:
             self.bus.write_byte_data(self.addr, self.direction_reg[bank], self.port_dir[bank])
             sleep(0.2)
@@ -39,7 +39,7 @@ class IoExp():
             return I2C_FAILURE
     
     # Sends the port outputs' configuration of a IO bank
-    def _IOExp_send_outs_(self, bank):
+    def send_outs(self, bank):
         try: 
             self.bus.write_byte_data(self.addr, self.output_reg[bank], self.port_out[bank])
             sleep(0.2)
@@ -48,17 +48,17 @@ class IoExp():
             return I2C_FAILURE
     
     # Changes and sends the port direction configuration to a IO bank
-    def _IOExp_set_dir_(self, bank, dir):
+    def set_dir(self, bank, dir):
         self.port_dir[bank] = dir
         self._IOExp_send_dir_(bank)
     
     # Changes and sends the port outputs configuration to a IO bank
-    def _IOExp_set_outs_(self, bank, out):
+    def set_outs(self, bank, out):
         self.port_out[bank] = out
         self._IOExp_send_outs_(bank)
 
     # Returns read values of input at bank
-    def _IOExp_read_(self,bank):
+    def read(self,bank):
         try:
             data = self.bus.read_i2c_block_data(self.addr, self.port_reg[bank],1)
             return data
@@ -66,12 +66,12 @@ class IoExp():
             return I2C_FAILURE
     
     # Configures the OI expander using the configuration set in the registers
-    def _IOExp_configure_(self):
+    def configure(self):
         for x in range(0,5):
             self._IOExp_send_dir_(x)
             self._IOExp_send_outs_(x)
     
-    def _toggle_io_(self, bank, io):
+    def toggle_io(self, bank, io):
         bit = 1
         for i in range(0,io):
             bit = bit << 1
