@@ -21,8 +21,18 @@ CLEAR = (0)
 RED   = (1)
 GREEN = (2)
 BLUE  = (3)
+
 APDS9960_EN_REG   = (0x80)
 APDS9960_GAIN_REG = (0x8F)
+
+# FEATURE ENABLES 
+PWR    = 0b1
+ALS    = 0b10
+PROX   = 0b100
+WAIT   = 0b1000
+ALS_I  = 0b10000
+PROX_I = 0b100000
+GEST   = 0b1000000
 
 # gains 0x0 0x1 0x2 0x3
 
@@ -30,17 +40,25 @@ class Adsp9960():
     def __init__(self, i2c=2):
         self.i2c = SMBus(i2c)
         self.addr = (0x39)
+        self.active_enables = 0x00
         self.read_reg = (0x94,0x96,0x98,0x9A)
         self.color_data = [[],[],[],[]]
-        
-    def enable_color(self):
+
+    def enable(self, feature):
+        self.active_enables = self.active_enables | feature
         try:
-            self.i2c.write_byte_data(self.APDS9960_addr, APDS9960_EN_REG, 0x01)  # pwr on
-            self.i2c.write_byte_data(self.APDS9960_addr, APDS9960_EN_REG, 0x03)  # enable
+            self.i2c.write_byte_data(self.APDS9960_addr, APDS9960_EN_REG, self.active_enables)  # pwr on
             return 1  # Successful I2C communication
         except Exception as e:
             return I2C_FAILURE 
-
+            
+    def disable(self, feature):
+        self.active_enables = self.active_enables & (0xff-features)
+        try:
+            self.i2c.write_byte_data(self.APDS9960_addr, APDS9960_EN_REG, self.active_enables)  # pwr on
+            return 1  # Successful I2C communication
+        except Exception as e:
+            return I2C_FAILURE 
 
     def read_ambient_light_register(self, color):
         if color <= 0 and color >= 3:
