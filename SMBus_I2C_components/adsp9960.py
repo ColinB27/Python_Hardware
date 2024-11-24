@@ -26,13 +26,13 @@ APDS9960_EN_REG   = (0x80)
 APDS9960_GAIN_REG = (0x8F)
 
 # FEATURE ENABLES 
-PWR    = 0b1
-ALS    = 0b10
-PROX   = 0b100
-WAIT   = 0b1000
-ALS_I  = 0b10000
-PROX_I = 0b100000
-GEST   = 0b1000000
+PWR    = (0b1)
+ALS    = (0b10)
+PROX   = (0b100)
+WAIT   = (0b1000)
+ALS_I  = (0b10000)
+PROX_I = (0b100000)
+GEST   = (0b1000000)
 
 # gains 0x0 0x1 0x2 0x3
 
