@@ -44,6 +44,9 @@ class Adsp9960():
         self.read_reg = (0x94,0x96,0x98,0x9A)
         self.color_data = [[],[],[],[]]
 
+    # =====================================================================================================================
+    # General Controls
+
     def enable(self, feature):
         self.active_enables = self.active_enables | feature
         try:
@@ -59,6 +62,9 @@ class Adsp9960():
             return 1  # Successful I2C communication
         except Exception as e:
             return I2C_FAILURE 
+
+    # =====================================================================================================================
+    # Ambien Light Sensor Controls
 
     def read_ambient_light_register(self, color):
         if color <= 0 and color >= 3:
@@ -97,4 +103,24 @@ class Adsp9960():
             return self.color_data[color]
         else:
             return FUNC_CALL_ERR
+
+    # =====================================================================================================================
+    # Proximity Controls
+
+    def set_proximity_interupt_distances(self, low, high):
+        try:
+            self.i2c.write_byte_data(self.APDS9960_addr, 0x89, low)  
+            self.i2c.write_byte_data(self.APDS9960_addr, 0x8B, high)  
+            return 1  # Successful I2C communication
+        except Exception as e:
+            return I2C_FAILURE 
+        
+
+
+
+
+
+
+
+        
     
