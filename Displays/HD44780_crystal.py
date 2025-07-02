@@ -93,7 +93,7 @@ class Lcd2004:
   def writeStrToLine(self,string,line):
         lines = [LCD_LINE_1,LCD_LINE_2,LCD_LINE_3,LCD_LINE_4]
         if line >= 1 and line <= 4:
-          self.writeCmd(lines[line])
+          self.writeCmd(lines[line-1])
           self.writeStr(string)
             
   def clear(self):
