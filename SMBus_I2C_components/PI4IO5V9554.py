@@ -5,9 +5,9 @@ class Pi4IOE5V9535():
     def __init__(self, I2C, addr):
         self.I2c = I2C
         self.addr = addr
-        self.input_port_register = 0x00 # memory reister of component`
-        self.output_port_register = 0x03 # memory reister of component`
-        self.port_config_register = 0x01 # memory reister of component
+        self.input_port_register = 0x00 # memory reister of component` make definitions to avoid creating this data each iterations
+        self.output_port_register = 0x03 # memory reister of component` //
+        self.port_config_register = 0x01 # memory reister of component //
         self.output_port = 0x00
         self.port_config = 0x00 # config to be sent to the registers (define once setup is decided)
         
