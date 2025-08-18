@@ -1,8 +1,8 @@
 """
 ============================================================================================
-Python Library for Pi4IOE5V9535 8-bit I/O Expander
+Python Library for PI4IOE5V9535 8-bit I/O Expander
 Description:
-This library provides a class and functions to interact with the Pi4IOE5V9535 I/O expander.
+This library provides a class and functions to interact with the PI4IOE5V9535 I/O expander.
 Please note that this library is designed to be used with Python 3.5.7 and newer versions.
 
 Author: ColinB27
@@ -16,7 +16,7 @@ INPUT_PORT_REGISTERS  = (0x00,0x01) # memory reister of component
 OUTPUT_PORT_REGISTERS = (0x02,0x03) # memory reister of component
 CONFIG_PORT_REGISTERS = (0x06,0x07) # memory reister of component
         
-class Pi4IOE5V9535():
+class PI4IOE5V9535():
     def __init__(self, I2C, addr, config = [0x00,0x00], outputs = [0x00, 0x00]):
         self.I2c = I2C
         self.addr = addr
